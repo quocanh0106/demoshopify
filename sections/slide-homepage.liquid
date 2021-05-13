@@ -1,0 +1,149 @@
+{% if section.blocks.size > 0 %}
+<div id="banner-slide" class="owl-carousel owl-theme">
+  {% for block in section.blocks %}
+    {% if block.type == 'image' %}
+      <div class="item">
+        {%- if block.settings.slide != blank -%}
+        <img class="desktop-only" src="{{block.settings.slide | img_url: '1920x650'}}" alt="{{block.settings.alt}}">
+        {% endif %}
+        {%- if block.settings.slide-tl != blank -%}
+        <img class="tablet-only" src="{{block.settings.slide-tl | img_url: 'master'}}" alt="{{block.settings.alt}}">
+        {% endif %}
+        {%- if block.settings.slide-mb != blank -%}
+        <img class="mobile-only" src="{{block.settings.slide-mb | img_url: 'master'}}" alt="{{block.settings.alt}}">
+        {% endif %}
+        <div class="container">
+          <div class="slide__infor">
+            {%- if block.settings.sale != blank -%}
+              <h3 class="slide__infor-sale desktop-only">{{block.settings.sale}}</h3>
+              <h3 class="slide__infor-sale mb-tl">Lusion pastry shop</h3>
+
+            {% endif %}
+
+            {%- if block.settings.heading != blank -%}
+            <h2 class="slide__infor-heading desktop-only">{{block.settings.heading}}</h2>
+            <h2 class="slide__infor-heading mb-tl">New Brownie Boxes</h2>
+            {% endif %}
+
+            <p class="slide__infor__price desktop-only">
+              {%- if block.settings.old-price != blank -%}
+              <span class="slide__infor__price-old">{{block.settings.old-price}}</span>
+              {% endif %}
+              {%- if block.settings.price != blank -%}
+              <span class="slide__infor__price-new">{{block.settings.price}}</span>
+              {% endif %}
+            </p>
+
+            {%- if block.settings.link-btn != blank -%}
+              <a href="{{block.settings.link-btn}}"><button>{{block.settings.button}}</button></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+{% endif %}
+
+
+{% schema %}
+
+{
+    "name": "Slider",
+    "class": "slide",
+    "blocks": [
+        {
+            "type": "image",
+            "name": "Slider",
+            "settings": [
+                {
+                    "id": "slide",
+                    "type": "image_picker",
+                    "label": "Slide"
+                }, {
+                  "id": "slide-tl",
+                  "type": "image_picker",
+                  "label": "Slide Tablet"
+                },{
+                    "id": "slide-mb",
+                    "type": "image_picker",
+                    "label": "Slide Mobile"
+                },{
+                  "id": "alt",
+                  "type": "text",
+                  "label": "Text image"
+                }, {
+                      "id": "sale",
+                      "type": "text",
+                      "label": "Sale"
+                }, {
+                    "id": "heading",
+                    "type": "text",
+                    "label": "Heading"
+                },{
+                  "id": "old-price",
+                  "type": "text",
+                  "label": "Old price"
+                },{
+                  "id": "price",
+                  "type": "text",
+                  "label": "Price"
+                },{
+                  "id": "button",
+                  "type": "text",
+                  "label": "Label button",
+                  "default": "shop now"
+                },{
+                  "id": "link-btn",
+                  "type": "url",
+                  "label": "Link button"
+                },
+                {
+                    "id": "position",
+                    "type": "select",
+                    "label": "Position",
+                    "default": "center",
+                    "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        }, {
+                            "value": "right",
+                            "label": "Right"
+                        }, {
+                            "value": "center",
+                            "label": "Center"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Slider",
+            "category": "Slider"
+        }
+    ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+$(document).ready(function() {
+  var owl = $('#banner-slide');
+  owl.owlCarousel({
+    nav: false,
+    loop: true,
+    autoplay:true,
+    autoplayTimeout:200000,
+    autoplayHoverPause:true,
+    dots:false,
+    items:1,
+    singleItem:true,
+    autoHeight:false
+  })
+})
+{% endjavascript %}

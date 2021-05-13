@@ -1,0 +1,115 @@
+{% case section.settings.grid %}
+{% when 2 %}
+  {%- assign col = '2' -%}
+{% when 3 %}
+  {%- assign col = '3' -%}
+{% when 4 %}
+  {%- assign col = '4' -%}
+{% endcase %}
+{% if section.blocks.size > 0 %}
+<div class="service owl-carousel owl-theme" id="service-slide"> 
+  {% for block in section.blocks %}
+  {% if block.type == 'text' %}
+  <div class="item service__item">
+    {% if block.settings.icon != blank %}
+      <div class="service__item-icon">
+        {{ block.settings.icon }}
+      </div>
+    {% endif %}
+    <div class="service__item__infor">
+      {% if block.settings.title != blank %}
+        <h4 class="service__item__infor-heading">{{ block.settings.title }}</h4>
+      {% endif %}
+      {% if block.settings.text != blank %}
+        <p class="service__item__infor-description">{{ block.settings.text }}</p>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
+{% endif %}
+
+
+
+{% schema %}
+  {
+    "name": "Service",
+    "class": "container",
+    "settings": [
+      {
+        "type": "range",
+        "id": "grid",
+        "label":  "Services per row",
+        "min": 2,
+        "max": 4,
+        "step": 1,
+        "default": 3
+      }
+    ],
+    "blocks": [
+      {
+        "type": "text",
+        "name": "Column",
+        "settings": [
+          {
+            "type": "textarea",
+            "id": "icon",
+            "label": "Icon"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading"
+          },
+          {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text"
+          }
+        ]
+      }
+    ],
+    "presets": [
+    {
+      "name": "Services",
+      "category": "Services",
+      "blocks": [
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+$('#service-slide').owlCarousel({
+  loop: true,
+  autoHeight: true,
+  responsiveClass:true,
+  dots:false,
+  navText : ["<i class='fa fa-chevron-left'></i>","<i class='fa fa-chevron-right'></i>"],
+  responsive:{
+      0:{
+          items:1,
+          nav: true
+      },
+      768:{
+          items:2,
+          margin:20,
+          nav: false
+      },
+      1024:{
+          items:3,
+          margin:30,
+          loop:false,
+          nav: false
+      }
+  }
+})
+{% endjavascript %}

@@ -1,0 +1,431 @@
+.slide{
+    .item{
+        position: relative;
+        font-family: "Apercu Pro";
+        .slide__infor{
+            position:absolute;
+            max-width: 100%;
+            .slide__infor-sale{
+                color: #b49968;
+                font-weight: 500;
+                text-transform: uppercase;
+                font-family: "Apercu Pro";
+            }
+            .slide__infor-heading{
+                color: #2c2c2c;
+                font-weight: 500;
+                text-transform: capitalize;
+                font-family: "Apercu Pro";
+            }
+            .slide__infor__price{
+                .slide__infor__price-old{
+                    font-size: 27px;
+                    letter-spacing: 0px;
+                    line-height: 32px;
+                    text-decoration: line-through;
+                    color: #9a9a9a;
+                }
+                .slide__infor__price-new{
+                    font-size: 30px;
+                    letter-spacing: 0.5px;
+                    line-height: 32px;
+                    color: #2c2c2c;
+                    font-weight: bold;             
+                }
+            }
+            button{
+                color: #0d0d12;
+                font-weight: 500;
+                text-align: center;
+                text-transform: uppercase;
+                border:1px solid #B49968;
+                background-color: unset;
+                transition: all 0.3s;
+            }
+            button:hover{
+                color: #fff;
+                background-color: #B49968;
+            }
+        }
+    }
+
+}
+
+.service{
+    .owl-item{
+        
+    }
+
+    .service__item{
+        border: 1px solid #ebeeee;
+        .service__item-icon{
+            font-size: 45px;
+            color: #b39967;
+            .theme-iconscooter{
+                font-size: 57px;
+            }
+        }
+        .service__item__infor{
+            .service__item__infor-heading{
+                line-height: 20px;
+                color: #2c2c2c;
+                font-family: "Apercu Pro";
+            }
+            .service__item__infor-description{
+                font-size: 16px;
+                letter-spacing: 0px;
+                line-height: 24px;
+                color: #707070;
+            }
+        }
+    }
+    .owl-nav{  
+        margin: 33px 0 0 0px;
+        button{
+            border: 1px solid #b49968;
+            background-color: unset;
+            padding: 10px 16px;
+            i{
+                -webkit-text-stroke: 1px #fff;
+            }
+        }
+        button:focus{
+            outline: none;
+        }
+        button:hover{
+            background-color: #b49968;
+            color: #fff;
+            i{
+                -webkit-text-stroke: 1px #b49968;
+            }
+        }
+        button.owl-prev{
+            border-right: none;
+        }
+    }
+}
+
+.category__item.slick-slide.slick-active{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    min-height: 370px;
+    flex-direction: column;
+}
+#category-slide .slick-prev{
+    left: 7px ;
+    z-index: 1;
+
+}
+#category-slide .slick-prev:before{
+    content: "\f053";
+    font-family: 'FontAwesome';
+}
+#category-slide .slick-next{
+    right: 35px;
+    z-index: 1;
+}
+#category-slide .slick-next:before{
+    content: "\f054";
+    font-family: 'FontAwesome';
+}
+.category-title{
+    .category-title--heading{
+        font-size: 40px;
+        letter-spacing: 0px;
+        line-height: 42px;
+        color: #2c2c2c;
+        font-weight: 500;
+        font-family: "Apercu Pro";
+        text-align: center;
+        text-transform: capitalize;
+    }
+    .category-title--sub{
+        font-size: 16px;
+        line-height: 22px;
+        color: #707070;
+        font-family: "Apercu Pro";
+        text-align: center;
+    }
+}
+
+.slick-track{
+    display: flex!important;
+    .category__item:hover{
+        border: 1px solid #b49968;
+        img{
+            transform: scale(1.1);
+            transition: all 0.7s;
+        }
+    }
+    .category__item{
+        border: 1px solid #ebeeee;
+        position: relative;
+        .category__item--img{
+            display: flex;
+            justify-content: space-evenly;
+            position: absolute;
+            margin: -81px 0 0 0;
+        }
+        .category__item__infor{
+            text-align: center;
+            position: absolute;
+            .category__item__infor--heading{
+                color: #2c2c2c;
+                font-weight: 500;
+                text-transform: capitalize;
+                font-family: "Apercu Pro";
+            }
+            .category__item__infor--btn{
+                color: #b49968;
+                font-weight: 500;
+                font-family: "Apercu Pro";
+                text-transform: uppercase;
+                background-color: unset;
+                border: none;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .container{
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    .desktop-only{ display: none;}
+    .tablet-only{display: none;}
+    .mobile-only{display: block;}
+    .mb-tl{display: block;}
+    .slide{
+        .item{
+            .slide__infor{
+                top: 22%;
+                left: 50%;
+                transform: translate(-50%, -35%);
+                text-align: center;
+                width: 100%;
+                .slide__infor-sale{
+                    font-size: 14px;
+                    letter-spacing: 0.9px;
+                    line-height: 32px;
+                }
+                .slide__infor-heading{
+                    font-size: 30px;
+                    letter-spacing: 0px;
+                    line-height: 32px;
+                    margin: -20px 0 27px 0;
+                }
+                button{
+                    font-size: 14px;
+                    letter-spacing: 1px;
+                    line-height: 24px;
+                    padding: 14px 29px;
+                }
+            }
+        }
+    
+    }
+    .service{
+        margin: 51px 0 0 0;
+        .service__item{
+            text-align: center;
+            padding: 13px 0 47px 0;
+            .service__item-icon{
+                
+            }
+            .service__item__infor{
+                .service__item__infor-heading{
+                    font-size: 19px;
+                    letter-spacing: 0.7px;
+                    word-spacing: 1px;
+                }
+                .service__item__infor-description{
+                    font-size: 15px;
+                    margin: -12px 12px;
+                }
+            }
+        }
+    }
+
+
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    .container{
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 34px;
+    }
+    .desktop-only{
+        display: none;
+    }
+    .tablet-only{
+        display: block;
+    }
+    .mobile-only{
+        display: none;
+    }
+    .mb-tl{display: block;}
+    .slide{
+        .item{
+            .slide__infor{
+                top: 46%;
+                transform: translateY(-33%);
+                margin: 0 0 0 -2px;
+                .slide__infor-sale{
+                    font-size: 14px;
+                    letter-spacing: 0.9px;
+                    line-height: 28px;
+                    margin: -1px 0 0 0;
+                }
+                .slide__infor-heading{
+                    font-size: 30px;
+                    letter-spacing: 0px;
+                    line-height: 32px;
+                }
+                .slide__infor__price{
+                    padding: 34px 0 0 0;
+                    .slide__infor__price-old{
+                    }
+                    .slide__infor__price-new{            
+                    }
+                }
+                button{
+                    font-size: 14px;
+                    letter-spacing: 1px;
+                    line-height: 24px;
+                    padding: 14px 29px;
+                    margin: 9px 0 0 2px;
+                }
+            }
+        }
+    
+    }
+
+    .service{
+        .service__item{
+            padding: 13px 0 0 30px;
+            min-height: 200px;
+            .service__item-icon{
+                position: absolute;
+                .theme-iconscooter{
+
+                }
+            }
+            .service__item__infor{
+                padding: 66px 0 0 0;
+                .service__item__infor-heading{
+                    font-size: 18px;
+                    letter-spacing: 1px;
+                }
+                .service__item__infor-description{
+                    letter-spacing: 0.1px;
+                    word-spacing: -1px;
+                    margin: -10px 0px 0 0px;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .container{
+        max-width: 1200px;
+    }
+    .desktop-only{
+        display: block;
+    }
+    .tablet-only{
+        display: none;
+    }
+    .mobile-only{
+        display: none;
+    }
+    .mb-tl{display: none;}
+    .slide{
+        .item{
+            .slide__infor{
+                top: 45%;
+                transform: translateY(-35%);
+                margin: 0 0 0 -3px;
+                .slide__infor-sale{
+                    font-size: 22px;
+                    letter-spacing: 1px;
+                    word-spacing: 1px;
+                    line-height: 32px;
+                    margin: -1px 0px 19px 6px;
+                }
+                .slide__infor-heading{
+                    font-size: 60px;
+                    letter-spacing: 0.3px;
+                    line-height: 32px;
+                    padding: 19px 0 0 0x;
+                }
+                .slide__infor__price{
+                    padding: 34px 0 0 0;
+                    .slide__infor__price-old{
+                    }
+                    .slide__infor__price-new{            
+                    }
+                }
+                button{
+                    font-size: 16px;
+                    letter-spacing: 1px;
+                    line-height: 24px;
+                    padding: 19px 29px;
+                    margin: 25px 0 0 4px;
+                }
+            }
+        }
+    
+    }
+
+    .service{
+        .owl-item.active{
+            margin: 0 10px 0 0;
+        }
+        .service__item{
+            padding: 23px 50px 21px 28px;
+            min-height: 232.7px;
+            .service__item-icon{
+                .theme-icongift{
+                    font-size: 44px;
+                    margin-left: -2px;
+                }
+            }
+            .service__item__infor{
+                .service__item__infor-heading{
+                    font-size: 20px;
+                    padding: 10px 0 0 0;
+                    letter-spacing: 0.3px;
+                }
+                .service__item__infor-description{
+                    letter-spacing: 0.1px;
+                }
+            }
+        }
+    }
+    .slick-track{
+        .category__item{
+            margin-right: 32px;
+            .category__item__infor{
+                bottom: 22px;
+                .category__item__infor--heading{
+                    font-size: 26px;
+                    letter-spacing: 0px;
+                    line-height: 22px;        
+                }
+                .category__item__infor--btn{
+                    font-size: 14px;
+                    letter-spacing: 1px;
+                    line-height: 20px;
+                }
+            }
+        }
+    
+    }
+
+}
