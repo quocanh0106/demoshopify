@@ -1,4 +1,5 @@
 \assets:
+
 homepage.scss.liquid
 ApercuPro-Regular*
 bootstrap*
