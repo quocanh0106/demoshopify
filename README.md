@@ -56,7 +56,7 @@ service-homepage.liquid
   
   
   <script src="{{ 'owl.carousel.js' | asset_url }}"></script>
-  
+ 
   
   <script src=" {{ 'owl.carousel.min.js' | asset_url }}"></script>
   
