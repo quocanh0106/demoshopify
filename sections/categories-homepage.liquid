@@ -23,6 +23,7 @@
   <div id="category-slide" class="category">
     {% for block in section.blocks limit: section.blocks.size %}
       {%if block.settings.collection != blank%}
+      <div>
         <div class="category__item">
           {%- assign collection = collections[block.settings.collection] -%}
           <div class="category__item--img">
@@ -33,6 +34,7 @@
             <a href="{{collection.url}}"><button class="category__item__infor--btn">shop now</button></a>
           </div>
         </div>
+      </div>
       {% endif %}
     {% endfor %}
   </div>
@@ -114,7 +116,7 @@ $('#category-slide').slick({
     {
       breakpoint: 1024,
       settings: {
-        slidesToShow: 3,
+        slidesToShow: 2,
         slidesToScroll: 1
       }
     },

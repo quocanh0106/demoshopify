@@ -1,0 +1,238 @@
+<footer class="site-footer">
+    {% if section.blocks.size > 0 %}
+        <div class="middle-footer">
+            <div class="container middle-footer-wrapper">
+                <div class="row">
+                    {% for block in section.blocks %}
+                            {% if block.type == 'text' %}
+                                <div class="  col-xl-{{ section.settings.columns_desktop }} col-md-{{ section.settings.columns_tablet }}">
+                                    <div class="title-content">
+                                        {% if block.settings.title_nav_footer !=blank %}
+                                            <h2>{{block.settings.title_nav_footer}}</h2>
+                                            <div>
+                                                {%- assign footer_linklist = block.settings.footer_nav -%}
+                                                    <ul class="site-footer__linklist">
+                                                        {%- for link in linklists[footer_linklist].links -%}
+                                                            <li class="site-footer__linklist-item">
+                                                                <a href="{{ link.url }}">{{ link.title | escape }}</a>
+                                                            </li>
+                                                        {%- endfor -%}
+                                                    </ul>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% elsif block.type == 'textarea' %}
+                                <div class=" col-xl-{{ section.settings.columns_desktop }} col-md-{{ section.settings.columns_tablet }}">
+                                    <div>
+                                        {{block.settings.contact}}
+                                    </div>
+                                </div>
+                            {% elsif block.type == 'newsletter' %}
+                                <div class="  col-xl-{{ section.settings.newsletteremail_desktop }} col-md-{{ section.settings.newsletteremail_tablet }}">
+                                    <div class="newsletter-wrapper">
+                                        <div class="content">{{block.settings.newsletter}}</div>
+                                        {% form 'customer', id: formId, novalidate: 'novalidate' %}
+                                            {%- if form.posted_successfully? -%}
+                                                <p class="form-message form-message--success" tabindex="-1" data-form-status>
+                                                    {{ 'general.newsletter_form.confirmation' | t }}
+                                                </p>
+                                            {%- endif -%}
+                                            <input type="hidden" name="contact[tags]" value="newsletter">
+                                            <div class="input-group {% if form.errors %} input-group--error{% endif %}">
+                                                <input type="email"
+                                                    name="contact[email]"
+                                                    id="{{ formId }}-email"
+                                                    class="input-group__field newsletter__input{% if form.errors %} input--error{% endif %}"
+                                                    value="{{ form.email }}"
+                                                    placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                                                    aria-label="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                                                    aria-required="true"
+                                                    required
+                                                    autocorrect="off"
+                                                    autocapitalize="off"
+                                                    {% if form.errors %}
+                                                    aria-invalid="true"
+                                                    aria-describedby="{{ formId }}-email-error"
+                                                    data-form-status
+                                                    {% endif %}>
+                                                <span class="input-group__btn">
+                                                    <button type="submit" class="btn newsletter__submit" name="commit" >
+                                                    <span class="newsletter__submit-text--large"><i class="fa fa-arrow-right" aria-hidden="true"></i></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                            {% if form.errors contains 'email' %}
+                                            <span id="{{ formId }}-email-error" class="input-error-message">
+                                                <span class="visually-hidden">{{ 'general.accessibility.error' | t }} </span>
+                                                {% include 'icon-error' %}
+                                                <span class="site-footer__newsletter-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
+                                            </span>
+                                            {% endif %}
+                                        {% endform %}
+                                        <ul class="payment-wrapper">
+                                            <li>
+                                                <a href="#"><i class="fa fa-cc-mastercard" aria-hidden="true"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="fa fa-cc-visa" aria-hidden="true"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="fa fa-cc-paypal" aria-hidden="true"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="fa fa-cc-amex" aria-hidden="true"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endif %}
+                    {% endfor %} 
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="bottom-footer">
+        {% if section.settings.content_bottom_footer !=blank %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-12 content-footer-bottom-left">
+                        <p>{{ section.settings.content_bottom_footer }}</p>
+                    </div>
+                    <div class="horizontal-link-list col-md-6 col-12 ">
+                        <ul>
+                            {% for block in section.blocks %}
+                                {% if block.type == 'horizontal_link_list' %}
+                                    <li>
+                                        <a href="{{ block.settings.footer_bottom_horizontal_link }}">
+                                            {{ block.settings.footer_bottom_horizontal_title }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</footer>
+<script>
+    $(document).ready(function(){
+        $('.title-content').on('click', function(){
+            $(this).toggleClass("active");
+    });
+});
+</script>
+{% schema %}
+{
+    "name":"Footer",
+    "settings": [
+        {
+            "type": "range",
+            "id":"newsletteremail_tablet",
+            "label":"Colums Newsletter Email Tablet ",
+            "min": 1,
+            "max": 12,
+            "default":12,
+            "step": 1,
+            "unit": "Col",
+            "info": "Unit: columns Tablet"
+        },
+        {
+            "type": "range",
+            "id":"columns_tablet",
+            "label":"Columns Tablet",
+            "min": 1,
+            "max": 12,
+            "default":12,
+            "step": 1,
+            "unit": "Col",
+            "info": "Unit: columns Tablet"
+        },
+        {
+            "type": "range",
+            "id":"newsletteremail_desktop",
+            "label":"Colums Newsletter Email Desktop ",
+            "min": 1,
+            "max": 12,
+            "default":12,
+            "step": 1,
+            "unit": "Col",
+            "info": "Unit: columns Desktop"
+        },
+        {
+            "type": "range",
+            "id":"columns_desktop",
+            "label":"Columns Desktop",
+            "min": 1,
+            "max": 12,
+            "default":12,
+            "step": 1,
+            "unit": "Col",
+            "info": "Unit: columns Desktop"
+        },
+        {
+            "type": "text",
+            "id":"content_bottom_footer",
+            "label":"Content Bottom Footer"
+        }
+    ],
+    "blocks":[
+        {
+            "name": "Content", 
+            "type": "text",
+            "settings": [
+                {
+                    "type": "text",
+                    "id":"title_nav_footer",
+                    "label":"Customer"
+                },
+                {
+                    "type": "link_list",
+                    "id": "footer_nav",
+                    "label": "Menu"
+                 }
+            ]
+        },
+        {
+            "name": "Horizontal Link List", 
+            "type": "horizontal_link_list",
+            "settings": [
+                {
+                    "type": "text",
+                    "id":"footer_bottom_horizontal_title",
+                    "label":"Title Link Footer Bottom"
+                },
+                {
+                    "type": "url",
+                    "id": "footer_bottom_horizontal_link",
+                    "label": "Link Footer Bottom"
+                 }
+            ]
+        },
+        {
+            "name":"Contact Info",
+            "type":"textarea",
+            "settings": [
+                {
+                    "type": "textarea",
+                    "id":"contact",
+                    "label":"Contact Info"
+                }
+            ]
+        },
+        {
+            "name":"Newsletter",
+            "type":"newsletter",
+            "settings": [
+                {
+                    "type": "text",
+                    "id":"newsletter",
+                    "label":"Newsletter"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}
