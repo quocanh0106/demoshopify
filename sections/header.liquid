@@ -5,7 +5,6 @@
         max-width: {{ section.settings.logo_max_width | escape }}px;
       }
     {% endif %}
-
     {% if section.settings.align_logo == 'left' %} 
       .site-header__logo-image {
         margin: 0;
@@ -23,10 +22,8 @@
         .announcement-bar {
           background-color: {{ section.settings.color_bg }};
         }
-
         .announcement-bar__link:hover {
           {% assign brightness = section.settings.color_bg | color_brightness %}
-
           {% if brightness <= 192 %}
             {% assign lightenAmount = 255 | minus: brightness | divided_by: 255 | times: 16 %}
             background-color: {{ section.settings.color_bg | color_lighten: lightenAmount }};
@@ -35,7 +32,6 @@
             background-color: {{ section.settings.color_bg | color_darken: darkenAmount }};
           {% endif %}
         }
-
         .announcement-bar__message {
           color: {{ section.settings.color_text }};
         }
@@ -55,8 +51,21 @@
   {% endif %}
 
   <header class="site-header{% if section.settings.align_logo == 'left' %} border-bottom logo--left{% else %} logo--center{% endif %}" role="banner">
-    <div class="container">
+    <div class="header-nav-mobile">
+      <div class="main-nav-mobile">
+        {%- assign header_linklist = section.settings.main_linklist -%}
+        <ul>
+          {%- for link in linklists[header_linklist].links -%}
+          <li class="main_header_linklist">
+            <a href="{{ link.url }}">{{ link.title | escape }}</a>
+          </li>
+        {%- endfor -%}
+        </ul>
+      </div>
+    </div>
     <div class="grid grid--no-gutters grid--table site-header__mobile-nav header-des-nav">
+      <div class="container">
+        <div class="row">
       {% if section.settings.align_logo == 'center' %}
         {%- assign logo_classes = 'medium-up--one-third medium-up--push-one-third logo-align--center' -%}
       {% else %}
@@ -109,7 +118,7 @@
         </nav>
       {% endif %}
 
-      <div class="grid__item item_nav {% if section.settings.align_logo == 'left' %}{% else %}medium-up--one-third medium-up--push-one-third{% endif %} text-right site-header__icons{% if shop.customer_accounts_enabled %} site-header__icons--plus{% endif %}">
+      <div class="grid__item item_nav {% if section.settings.align_logo == 'left' %}{% else %} medium-up--one-third medium-up--push-one-third {% endif %} text-right site-header__icons {% if shop.customer_accounts_enabled %} site-header__icons--plus {% endif %}">
         <div class="site-header__icons-wrapper">
 
           <button type="button" class="btn--link site-header__icon site-header__search-toggle js-drawer-open-top" data-predictive-search-open-drawer>
@@ -120,7 +129,7 @@
           {% if shop.customer_accounts_enabled %}
             {% if customer %}
               <a href="{{ routes.account_url }}" class="site-header__icon site-header__account">
-                <i class="fa fa-user-o" aria-hidden="true"></i>
+                {% include 'icon-login' %}
                 <span class="icon__fallback-text">{{ 'layout.customer.account' | t }}</span>
               </a>
             {% else %}
@@ -132,7 +141,6 @@
           {% endif %}
           <a href="#" class="site-header__icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
 
-          <!-- {{ routes.cart_url }} -->
           <a href="#" class="site-header__icon site-header__cart">
             {% include 'icon-cart' %}
             <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
@@ -203,11 +211,11 @@
                             <div class="details-product-wrapper">
                               <div class="details-qty" data-cart-item="{{ item.key }}">
                                 <div class="minus minus-qty edit-qty" data-cart-item="{{ item.key }}">
-                                  <span><i class="theme-iconminus"></i></span>
+                                  <span><i class="fa fa-minus" aria-hidden="true"></i></span>
                                 </div>
                                 <input type="number" class="item-qty update-cart-item" data-cart-item="{{ item.key }}" data-item-qty="{{ item.quantity }}" value="{{ item.quantity }}">
                                 <div class="plus-qty edit-qty" data-cart-item="{{ item.key }}">
-                                  <span class="plus"><i class="theme-iconplus"></i></span>
+                                  <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
                                 </div>
                               </div>
                               <div class="price">
@@ -253,7 +261,6 @@
           {% unless linklists[section.settings.main_linklist] == blank %}
             <button type="button" class="btn--link site-header__icon site-header__menu js-mobile-nav-toggle mobile-nav--open" aria-controls="MobileNav"  aria-expanded="false" aria-label="{{ 'layout.navigation.menu' | t }}">
               {% include 'icon-hamburger' %}
-              {% include 'icon-close' %}
             </button>
           {% endunless %}
         </div>
@@ -261,101 +268,7 @@
       </div>
     </div>
     </div>
-
-    <nav class="mobile-nav-wrapper medium-up--hide critical-hidden" role="navigation">
-      <ul id="MobileNav" class="mobile-nav">
-        {% for link in linklists[section.settings.main_linklist].links %}
-          {%- assign outerLoopIndex = forloop.index -%}
-
-          <li class="mobile-nav__item{% unless forloop.last %} border-bottom{% endunless %}">
-            {% if link.links != blank %}
-              {% capture child_list_handle %}{{ link.handle }}-{{ outerLoopIndex }}{% endcapture %}
-              <button type="button" class="btn--link js-toggle-submenu mobile-nav__link{% if link.child_active %} mobile-nav__link--active{% endif %}" data-target="{{ child_list_handle }}" data-level="1" aria-expanded="false">
-                <span class="mobile-nav__label">{{ link.title | escape }}</span>
-                <div class="mobile-nav__icon">
-                  {% include 'icon-chevron-right' %}
-                </div>
-              </button>
-              <ul class="mobile-nav__dropdown" data-parent="{{ child_list_handle }}" data-level="2">
-                <li class="visually-hidden" tabindex="-1" data-menu-title="2">
-                  {{- link.title }} {{ 'layout.navigation.menu' | t -}}
-                </li>
-                <li class="mobile-nav__item border-bottom">
-                  <div class="mobile-nav__table">
-                    <div class="mobile-nav__table-cell mobile-nav__return">
-                      <button class="btn--link js-toggle-submenu mobile-nav__return-btn" type="button" aria-expanded="true" aria-label="{{ link.title }}">
-                        {% include 'icon-chevron-left' %}
-                      </button>
-                    </div>
-                    <span class="mobile-nav__sublist-link mobile-nav__sublist-header mobile-nav__sublist-header--main-nav-parent">
-                      <span class="mobile-nav__label">{{ link.title | escape }}</span>
-                    </span>
-                  </div>
-                </li>
-
-                {% for childlink in link.links %}
-                  <li class="mobile-nav__item{% unless forloop.last %} border-bottom{% endunless %}">
-                    {% if childlink.links != blank %}
-                      {% capture grandchild_list_handle %}{{ childlink.handle }}-{{ outerLoopIndex }}-{{ forloop.index }}{% endcapture %}
-                      <button type="button" class="btn--link js-toggle-submenu mobile-nav__link mobile-nav__sublist-link" data-target="{{ grandchild_list_handle }}" aria-expanded="false">
-                        <span class="mobile-nav__label">{{ childlink.title | escape }}</span>
-                        <div class="mobile-nav__icon">
-                          {% include 'icon-chevron-right' %}
-                        </div>
-                      </button>
-                      <ul class="mobile-nav__dropdown" data-parent="{{ grandchild_list_handle }}" data-level="3">
-                        <li class="visually-hidden" tabindex="-1" data-menu-title="3">
-                          {{- childlink.title }} {{ 'layout.navigation.menu' | t -}}
-                        </li>
-                        <li class="mobile-nav__item border-bottom">
-                          <div class="mobile-nav__table">
-                            <div class="mobile-nav__table-cell mobile-nav__return">
-                              <button type="button" class="btn--link js-toggle-submenu mobile-nav__return-btn" data-target="{{ child_list_handle }}" aria-expanded="true" aria-label="{{ childlink.title }}">
-                                {% include 'icon-chevron-left' %}
-                              </button>
-                            </div>
-                            <a href="{{ childlink.url }}"
-                              class="mobile-nav__sublist-link mobile-nav__sublist-header"
-                              {% if childlink.current %} aria-current="page"{% endif %}
-                            >
-                              <span class="mobile-nav__label">{{ childlink.title | escape }}</span>
-                            </a>
-                          </div>
-                        </li>
-                        {% for grandchildlink in childlink.links %}
-                          <li class="mobile-nav__item{% unless forloop.last %} border-bottom{% endunless %}">
-                            <a href="{{ grandchildlink.url }}"
-                              class="mobile-nav__sublist-link"
-                              {% if grandchildlink.current %} aria-current="page"{% endif %}
-                            >
-                              <span class="mobile-nav__label">{{ grandchildlink.title | escape }}</span>
-                            </a>
-                          </li>
-                        {% endfor %}
-                      </ul>
-                    {% else %}
-                      <a href="{{ childlink.url }}"
-                        class="mobile-nav__sublist-link"
-                        {% if childlink.current %} aria-current="page"{% endif %}
-                      >
-                        <span class="mobile-nav__label">{{ childlink.title | escape }}</span>
-                      </a>
-                    {% endif %}
-                  </li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              <a href="{{ link.url }}"
-                class="mobile-nav__link{% if link.active %} mobile-nav__link--active{% endif %}"
-                {% if link.current %} aria-current="page"{% endif %}
-              >
-                <span class="mobile-nav__label">{{ link.title | escape }}</span>
-              </a>
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ul>
-    </nav>
+    </div>
   </header>
 
   {% if section.settings.align_logo == 'center' %}
@@ -371,8 +284,11 @@
         $('.site-header__icons-wrapper').addClass('active');
     });
     $('.btn-minicart-close').on('click', function(){
-$('.site-header__icons-wrapper').removeClass('active');
-});
+      $('.site-header__icons-wrapper').removeClass('active');
+    });
+    $('.mobile-nav--open').on('click', function(){
+            $('.js').toggleClass("nav-open");
+    });
 });
 </script>
 
@@ -419,26 +335,7 @@ $('.site-header__icons-wrapper').removeClass('active');
 {% schema %}
 {
   "name": {
-    "cs": "Záhlaví",
-    "da": "Overskrift",
-    "de": "Titel",
     "en": "Header",
-    "es": "Encabezado",
-    "fi": "Ylätunniste",
-    "fr": "En-tête",
-    "it": "Header",
-    "ja": "ヘッダー",
-    "ko": "헤더",
-    "nb": "Header",
-    "nl": "Koptekst",
-    "pl": "Nagłówek",
-    "pt-BR": "Cabeçalho",
-    "pt-PT": "Cabeçalho",
-    "sv": "Rubrik",
-    "th": "ส่วนหัว",
-    "tr": "Üstbilgi",
-    "vi": "Đầu trang",
-    "zh-CN": "标头",
     "zh-TW": "標頭"
   },
   "settings": [
@@ -446,26 +343,7 @@ $('.site-header__icons-wrapper').removeClass('active');
       "type": "radio",
       "id": "align_logo",
       "label": {
-        "cs": "Zarovnání loga",
-        "da": "Logojustering",
-        "de": "Logo-Ausrichtung",
         "en": "Logo alignment",
-        "es": "Alineación de logo",
-        "fi": "Logon tasaus",
-        "fr": "Alignement du logo",
-        "it": "Allineamento logo",
-        "ja": "ロゴアラインメント",
-        "ko": "로고 정렬",
-        "nb": "Logojustering",
-        "nl": "Logo-uitlijning",
-        "pl": "Wyrównanie logo",
-        "pt-BR": "Alinhamento do logo",
-        "pt-PT": "Alinhamento do logótipo",
-        "sv": "Logojustering",
-        "th": "การจัดวางโลโก้",
-        "tr": "Logo hizalaması",
-        "vi": "Căn chỉnh logo",
-        "zh-CN": "logo 对齐方式",
         "zh-TW": "商標對齊"
       },
       "default": "left",
@@ -473,52 +351,14 @@ $('.site-header__icons-wrapper').removeClass('active');
         {
           "value": "left",
           "label": {
-            "cs": "Doleva",
-            "da": "Venstre",
-            "de": "Links",
             "en": "Left",
-            "es": "Izquierda",
-            "fi": "Vasen",
-            "fr": "Gauche",
-            "it": "Sinistra",
-            "ja": "左",
-            "ko": "왼쪽",
-            "nb": "Venstre",
-            "nl": "Links",
-            "pl": "Do lewej",
-            "pt-BR": "Esquerda",
-            "pt-PT": "Esquerda",
-            "sv": "Vänster",
-            "th": "ด้านซ้าย",
-            "tr": "Sol",
-            "vi": "Bên trái",
-            "zh-CN": "左侧",
             "zh-TW": "左方"
           }
         },
         {
           "value": "center",
           "label": {
-            "cs": "Na střed",
-            "da": "Centreret",
-            "de": "Mittig",
             "en": "Centered",
-            "es": "Centrada",
-            "fi": "Keskitetty",
-            "fr": "Centré",
-            "it": "Centrato",
-            "ja": "中央揃え",
-            "ko": "센터 맞추기",
-            "nb": "Sentrert",
-            "nl": "Gecentreerd",
-            "pl": "Wyśrodkowane",
-            "pt-BR": "Centralizado",
-            "pt-PT": "Centrado",
-            "sv": "Centrera",
-            "th": "ตรงกลาง",
-            "tr": "Orta",
-            "vi": "Giữa",
-            "zh-CN": "居中",
             "zh-TW": "置中"
           }
         }
@@ -528,26 +368,7 @@ $('.site-header__icons-wrapper').removeClass('active');
       "type": "image_picker",
       "id": "logo",
       "label": {
-        "cs": "Obrázek loga",
-        "da": "Logobillede",
-        "de": "Logo-Foto",
         "en": "Logo image",
-        "es": "Logo",
-        "fi": "Logokuva",
-        "fr": "Image du logo",
-        "it": "Immagine del logo",
-        "ja": "ロゴ画像",
-        "ko": "로고 이미지",
-        "nb": "Logobilde",
-        "nl": "Afbeelding van logo",
-        "pl": "Obraz logo",
-        "pt-BR": "Imagem do logo",
-        "pt-PT": "Imagem do logótipo",
-        "sv": "Logobild",
-        "th": "รูปภาพโลโก้",
-        "tr": "Logo görseli",
-        "vi": "Hình ảnh logo",
-        "zh-CN": "logo 图片",
         "zh-TW": "標誌圖片"
       }
     },
@@ -555,25 +376,7 @@ $('.site-header__icons-wrapper').removeClass('active');
       "type": "range",
       "id": "logo_max_width",
       "label": {
-        "cs": "Šířka vlastního loga",
-        "da": "Tilpasset logobredde",
-        "de": "Logobreite",
         "en": "Custom logo width",
-        "es": "Ancho del logo personalizado",
-        "fi": "Mukautetun logon leveys",
-        "fr": "Largeur personnalisée du logo",
-        "it": "Larghezza logo personalizzato",
-        "ja": "ロゴの幅をカスタマイズする",
-        "ko": "사용자 지정 로고 폭",
-        "nb": "Tilpasset logobredde",
-        "nl": "Aangepaste logo-breedte",
-        "pl": "Niestandardowa szerokość logo",
-        "pt-BR": "Largura do logo personalizado",
-        "pt-PT": "Largura de logótipo personalizada",
-        "sv": "Anpassad logotypsbredd",
-        "th": "ความกว้างของโลโก้แบบกำหนดเอง",
-        "tr": "Özel logo genişliği",
-        "vi": "Chiều rộng logo tùy chỉnh",
         "zh-CN": "自定义 logo 宽度",
         "zh-TW": "自訂商標寬度"
       },
@@ -586,29 +389,7 @@ $('.site-header__icons-wrapper').removeClass('active');
     {
       "type": "link_list",
       "id": "main_linklist",
-      "label": {
-        "cs": "Nabídka",
-        "da": "Menu",
-        "de": "Menü",
-        "en": "Menu",
-        "es": "Menú",
-        "fi": "Valikko",
-        "fr": "Menu",
-        "it": "Menu",
-        "ja": "メニュー",
-        "ko": "메뉴",
-        "nb": "Meny",
-        "nl": "Menu",
-        "pl": "Menu",
-        "pt-BR": "Menu",
-        "pt-PT": "Menu",
-        "sv": "Meny",
-        "th": "เมนู",
-        "tr": "Menü",
-        "vi": "Menu",
-        "zh-CN": "菜单",
-        "zh-TW": "選單"
-      },
+      "label": "Menu",
       "default": "main-menu"
     },
     {
@@ -852,13 +633,3 @@ $('.site-header__icons-wrapper').removeClass('active');
   ]
 }
 {% endschema %}
-{% javascript %}
-$(document).ready(function() {
-  $('.site-header__cart').click(function() {
-      $('.site-header__icons-wrapper').addClass('active');
-  });
-  $('.btn-minicart-close').on('click', function(){
-$('.site-header__icons-wrapper').removeClass('active');
-});
-});
-{% endjavascript %}
